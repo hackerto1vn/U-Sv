@@ -788,9 +788,7 @@ async function renderAdminDashboard() {
   const users = await dbGetAllUsers();
   const sos = await dbGetAllSOS();
 
-  const totalUsers = users.filter(u => u.role !== "admin").length;
   const victims = users.filter(u => u.role === "victim").length;
-  const rescue = users.filter(u => u.role === "rescue").length;
   const newSOS = sos.filter(s => s.status === "new").length;
   const processing = sos.filter(s => ["received", "arriving"].includes(s.status)).length;
   const completed = sos.filter(s => s.status === "done").length;
@@ -798,6 +796,7 @@ async function renderAdminDashboard() {
   return `
     <div class="row">
       ${statCard("SOS mới", newSOS, "bg-warning", "fa-bell")}
+      ${statCard("Người bị nạn", victims, "bg-danger", "fa-user")}
       ${statCard("Đang xử lý", processing, "bg-info", "fa-spinner")}
       ${statCard("Đã cứu hộ", completed, "bg-success", "fa-check-circle")}
     </div>
@@ -827,11 +826,6 @@ async function renderAdminDashboard() {
           </div>
         </div>
       </div>
-    </div>
-    <div class="row">
-      ${statCard("Người dùng", totalUsers, "bg-primary", "fa-users")}
-      ${statCard("Người bị nạn", victims, "bg-danger", "fa-user")}
-      ${statCard("TT Cứu hộ", rescue, "bg-info", "fa-ambulance")}
     </div>`;
 }
 
