@@ -216,10 +216,10 @@ function buildSidebar() {
     html = `
       <li class="nav-header text-uppercase small text-muted">QUẢN TRỊ</li>
       <li class="nav-item"><a class="nav-link active" onclick="loadPage('adminDashboard')"><i class="nav-icon fas fa-tachometer-alt"></i><p>Dashboard</p></a></li>
-      <li class="nav-item"><a class="nav-link" onclick="loadPage('adminUsers')"><i class="nav-icon fas fa-users"></i><p>Người dùng</p></a></li>
       <li class="nav-item"><a class="nav-link" onclick="loadPage('adminSOS')"><i class="nav-icon fas fa-exclamation-triangle"></i><p>Quản lý SOS</p></a></li>
       <li class="nav-item"><a class="nav-link" onclick="loadPage('adminSearch')"><i class="nav-icon fas fa-search text-warning"></i><p>Tra mã cứu hộ</p></a></li>
-      <li class="nav-item"><a class="nav-link" onclick="loadPage('rescueMap')"><i class="nav-icon fas fa-map-marked-alt"></i><p>Bản đồ tổng hợp</p></a></li>`;
+      <li class="nav-item"><a class="nav-link" onclick="loadPage('rescueMap')"><i class="nav-icon fas fa-map-marked-alt"></i><p>Bản đồ tổng hợp</p></a></li>
+      <li class="nav-item"><a class="nav-link" onclick="loadPage('adminUsers')"><i class="nav-icon fas fa-users"></i><p>Người dùng</p></a></li>`;
   }
   menu.innerHTML = html;
 }
