@@ -797,12 +797,7 @@ async function renderAdminDashboard() {
 
   return `
     <div class="row">
-      ${statCard("Người dùng", totalUsers, "bg-primary", "fa-users")}
-      ${statCard("Người bị nạn", victims, "bg-danger", "fa-user")}
-      ${statCard("TT Cứu hộ", rescue, "bg-info", "fa-ambulance")}
       ${statCard("SOS mới", newSOS, "bg-warning", "fa-bell")}
-    </div>
-    <div class="row">
       ${statCard("Đang xử lý", processing, "bg-info", "fa-spinner")}
       ${statCard("Đã cứu hộ", completed, "bg-success", "fa-check-circle")}
     </div>
@@ -832,6 +827,11 @@ async function renderAdminDashboard() {
           </div>
         </div>
       </div>
+    </div>
+    <div class="row">
+      ${statCard("Người dùng", totalUsers, "bg-primary", "fa-users")}
+      ${statCard("Người bị nạn", victims, "bg-danger", "fa-user")}
+      ${statCard("TT Cứu hộ", rescue, "bg-info", "fa-ambulance")}
     </div>`;
 }
 
