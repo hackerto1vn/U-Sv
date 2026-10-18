@@ -788,7 +788,8 @@ async function renderAdminDashboard() {
   const users = await dbGetAllUsers();
   const sos = await dbGetAllSOS();
 
-  const victims = users.filter(u => u.role === "victim").length;
+  // Người bị nạn = số người đang có SOS chưa được cứu hộ (xong thì tự trừ đi)
+  const victims = new Set(sos.filter(s => s.status !== "done").map(s => s.userId)).size;
   const newSOS = sos.filter(s => s.status === "new").length;
   const processing = sos.filter(s => ["received", "arriving"].includes(s.status)).length;
   const completed = sos.filter(s => s.status === "done").length;
