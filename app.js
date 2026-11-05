@@ -1151,6 +1151,19 @@ async function showSOS(id) {
       </div>` : ""}
 
     ${canEdit ? `
+      <div class="alert alert-primary mt-3 mb-3">
+        <div class="d-flex align-items-center justify-content-between flex-wrap">
+          <div class="mr-3 mb-2 mb-md-0">
+            <strong><i class="fas fa-drone"></i> Điều phối UAV DRAS</strong>
+            <div class="small">Gửi tọa độ người gặp nạn sang Ground Station để thêm thành điểm đến trong nhiệm vụ.</div>
+          </div>
+          ${sos.lat != null && sos.lng != null ? (sos.uavMissionId
+            ? `<span class="badge badge-success p-2"><i class="fas fa-check-circle"></i> Đã gửi tọa độ đến UAV</span>`
+            : `<button class="btn btn-danger" onclick="sendSOSLocationToUAV('${sos.id}')"><i class="fas fa-paper-plane"></i> GỬI TỌA ĐỘ ĐẾN UAV</button>`)
+            : `<span class="badge badge-warning p-2">SOS chưa có tọa độ GPS</span>`}
+        </div>
+        <small class="d-block mt-2 text-muted">Ground Station sẽ nhận điểm SOS để người điều khiển kiểm tra và thêm vào nhiệm vụ. Không tự động cất cánh hoặc bắt đầu bay.</small>
+      </div>
       <hr>
       <h5><i class="fas fa-tools"></i> Xử lý yêu cầu</h5>
       <div class="form-group">
@@ -1224,6 +1237,55 @@ async function showSOS(id) {
   } else {
     $("#sosModal").one("shown.bs.modal", () => initDetailMap(sos));
     $("#sosModal").modal("show");
+  }
+}
+
+async function sendSOSLocationToUAV(id) {
+  if (!currentUser || !["rescue", "admin"].includes(currentUser.role)) {
+    showToast("❌ Chỉ đội cứu hộ hoặc quản trị viên mới được điều phối UAV.");
+    return;
+  }
+  const sos = await dbGetSOSById(id);
+  if (!sos || sos.lat == null || sos.lng == null) {
+    showToast("❌ SOS chưa có tọa độ GPS hợp lệ.");
+    return;
+  }
+  if (sos.status === "done") {
+    showToast("❌ SOS này đã hoàn tất cứu hộ.");
+    return;
+  }
+  if (sos.uavMissionId) {
+    showToast("ℹ️ Tọa độ SOS này đã được gửi sang UAV.");
+    return;
+  }
+
+  const okSend = confirm(
+    `GỬI TỌA ĐỘ SOS SANG DRAS GROUND STATION?\n\n` +
+    `Mã SOS: ${sos.id}\nNgười gặp nạn: ${sos.userName}\n` +
+    `Vĩ độ: ${Number(sos.lat).toFixed(6)}\nKinh độ: ${Number(sos.lng).toFixed(6)}\n\n` +
+    `Ground Station chỉ nhận tọa độ để người điều khiển kiểm tra và thêm vào nhiệm vụ. UAV sẽ KHÔNG tự cất cánh.`
+  );
+  if (!okSend) return;
+
+  const missionId = "UAVSOS-" + Date.now();
+  const task = {
+    id: missionId, sosId: sos.id, userName: sos.userName || "Người gặp nạn",
+    description: sos.description || "Yêu cầu cứu hộ",
+    lat: Number(sos.lat), lng: Number(sos.lng), status: "pending",
+    createdAt: new Date().toISOString(), createdBy: currentUser.name || "Đội cứu hộ"
+  };
+
+  try {
+    await dbAddUavMission(task);
+    sos.uavMissionId = missionId;
+    sos.uavMissionStatus = "sent";
+    sos.uavMissionSentAt = task.createdAt;
+    await dbUpdateSOS(sos);
+    showToast("✅ Đã gửi tọa độ SOS sang DRAS Ground Station!");
+    await showSOS(id);
+  } catch (e) {
+    console.error(e);
+    showToast("❌ Không gửi được tọa độ sang UAV. Kiểm tra kết nối Firestore.");
   }
 }
 
