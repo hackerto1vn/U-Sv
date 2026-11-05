@@ -217,3 +217,26 @@ async function seedAdmin() {
   });
   console.log("✅ Admin tạo: huykhanh / huykhanh");
 }
+
+
+/* ---------- UAV SOS MISSIONS (đồng bộ sang DRAS Ground Station) ---------- */
+async function dbAddUavMission(mission) {
+  await _ready();
+  const data = _clone(mission);
+  await _fs.setDoc(_fs.doc(_db, "uav_missions", mission.id), data);
+  return mission.id;
+}
+
+async function dbGetUavMissions() {
+  try {
+    await _ready();
+    const snap = await _fs.getDocs(_fs.collection(_db, "uav_missions"));
+    return snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  } catch (e) { reportDbError(e); return []; }
+}
+
+async function dbUpdateUavMission(id, patch) {
+  await _ready();
+  await _fs.updateDoc(_fs.doc(_db, "uav_missions", id), _clone(patch));
+  return true;
+}
