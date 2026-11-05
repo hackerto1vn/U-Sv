@@ -1156,12 +1156,12 @@ async function showSOS(id) {
       <div class="form-group">
         <label><i class="fas fa-comment-dots text-primary"></i> Phản hồi cho người bị nạn</label>
         <textarea id="responseText" class="form-control" rows="3"
-          placeholder="VD: Đội cứu hộ đã xuất phát, dự kiến 15 phút...">${sos.response || ""}</textarea>
+          placeholder="VD: Đội cứu hộ đã xuất phát, dự kiến 15 phút...">${escapeHtml(sos.response)}</textarea>
       </div>
       <div class="form-group">
         <label><i class="fas fa-sticky-note text-warning"></i> Ghi chú phương án cứu hộ</label>
         <textarea id="noteText" class="form-control" rows="3"
-          placeholder="VD: Đã điều 2 xe cứu thương, 5 nhân viên...">${sos.note || ""}</textarea>
+          placeholder="VD: Đã điều 2 xe cứu thương, 5 nhân viên...">${escapeHtml(sos.note)}</textarea>
       </div>
 
       <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
