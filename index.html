@@ -19,56 +19,44 @@
 
 <!-- ============ LOGIN ============ -->
 <div id="loginPage" class="login-page-custom">
-  <div class="login-card">
-    <div class="brand">
-      <div class="brand-icon"><i class="fas fa-bullhorn"></i></div>
-      <h1><span style="color:#dc3545">SOS</span> App</h1>
-      <p>Hệ thống cứu hộ khẩn cấp</p>
-    </div>
-
-    <!-- NGƯỜI DÂN: chỉ cần họ tên + SĐT -->
-    <div id="userForm">
-      <h5 class="text-center mb-2" style="font-weight:700">Vào hệ thống</h5>
-      <p class="text-center text-muted small mb-3">
-        Nhập họ tên và số điện thoại. Lần sau nhập lại <b>cùng số điện thoại</b>
-        để xem tiến trình các SOS bạn đã gửi.
-      </p>
-
-      <div class="form-group">
-        <div class="input-group">
-          <div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-user"></i></span></div>
-          <input type="text" id="userName" class="form-control" placeholder="Họ và tên" autocomplete="name">
-        </div>
-      </div>
-
-      <div class="form-group">
-        <div class="input-group">
-          <div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-phone"></i></span></div>
-          <input type="tel" id="userPhone" class="form-control" placeholder="Số điện thoại" autocomplete="tel">
-        </div>
-      </div>
-
-      <button class="btn btn-danger btn-block btn-lg" onclick="doUserEnter()">
-        <i class="fas fa-sign-in-alt"></i> Vào hệ thống
-      </button>
-
-      <div id="userMessage" class="mt-3"></div>
-    </div>
-  </div>
-
-  <!-- QUẢN TRỊ VIÊN: góc nhỏ -->
-  <a href="#" class="admin-corner-link" onclick="toggleAdminBox(event)">
-    <i class="fas fa-user-shield"></i> Quản trị
-  </a>
-  <div id="adminBox" class="admin-corner-box" style="display:none">
-    <div class="small font-weight-bold mb-2"><i class="fas fa-user-shield text-danger"></i> Đăng nhập quản trị viên</div>
-    <input type="text" id="adminUsername" class="form-control form-control-sm mb-2" placeholder="Tài khoản" autocomplete="username">
-    <input type="password" id="adminPassword" class="form-control form-control-sm mb-2" placeholder="Mật khẩu" autocomplete="current-password">
-    <button class="btn btn-danger btn-sm btn-block" onclick="doAdminLogin()">
-      <i class="fas fa-sign-in-alt"></i> Đăng nhập
-    </button>
-    <div id="adminMessage" class="mt-2"></div>
-  </div>
+<aside class="login-hero" aria-hidden="false">
+<span class="ring"></span><span class="ring"></span><span class="ring"></span>
+<div class="beacon"><i class="fas fa-tower-broadcast"></i></div>
+<h2>Gửi tín hiệu cầu cứu trong vài giây</h2>
+<p>Cho đội cứu hộ biết bạn ở đâu và cần gì. Bạn theo dõi được tiến trình xử lý ngay trên điện thoại.</p>
+</aside>
+<main class="login-main">
+<div class="login-card">
+<div class="brand">
+<h1><span style="color:#d93a2b">SOS</span> App</h1>
+<p>Hệ thống cứu hộ khẩn cấp</p>
+</div>
+<div id="userForm">
+<p class="text-muted small mb-3">Nhập họ tên và số điện thoại. Lần sau nhập lại <b>cùng số điện thoại</b> để xem các SOS đã gửi.</p>
+<div class="form-group">
+<div class="input-group">
+<div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-user"></i></span></div>
+<input type="text" id="userName" class="form-control" placeholder="Họ và tên" autocomplete="name">
+</div></div>
+<div class="form-group">
+<div class="input-group">
+<div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-phone"></i></span></div>
+<input type="tel" id="userPhone" class="form-control" placeholder="Số điện thoại" autocomplete="tel">
+</div></div>
+<button class="btn btn-danger btn-block btn-lg" onclick="doUserEnter()">Vào hệ thống</button>
+<div id="userMessage" class="mt-3"></div>
+<div class="emergency-note"><i class="fas fa-circle-exclamation"></i> Nguy hiểm đến tính mạng? Gọi ngay <b>112</b>.</div>
+</div>
+</div>
+<a href="#" class="admin-corner-link" onclick="toggleAdminBox(event)"><i class="fas fa-user-shield"></i> Quản trị</a>
+<div id="adminBox" class="admin-corner-box" style="display:none">
+<div class="small font-weight-bold mb-2"><i class="fas fa-user-shield text-danger"></i> Đăng nhập quản trị viên</div>
+<input type="text" id="adminUsername" class="form-control form-control-sm mb-2" placeholder="Tài khoản" autocomplete="username">
+<input type="password" id="adminPassword" class="form-control form-control-sm mb-2" placeholder="Mật khẩu" autocomplete="current-password">
+<button class="btn btn-danger btn-sm btn-block" onclick="doAdminLogin()">Đăng nhập</button>
+<div id="adminMessage" class="mt-2"></div>
+</div>
+</main>
 </div>
 
 <!-- ============ APP ============ -->
@@ -102,6 +90,13 @@
             <i class="fas fa-sign-out-alt"></i> Đăng xuất
           </a>
         </div>
+      </li>
+      <li class="nav-item d-flex align-items-center ml-2">
+        <button type="button" class="btn btn-danger btn-sm nav-logout-btn"
+                onclick="doLogout()" title="Đăng xuất khỏi hệ thống" aria-label="Đăng xuất">
+          <i class="fas fa-sign-out-alt mr-1"></i>
+          <span>Đăng xuất</span>
+        </button>
       </li>
     </ul>
   </nav>
